@@ -1,0 +1,735 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        extensions: ['mhchem.js']
+      },
+      tex2jax: {
+        inlineMath: [
+          ['$', '$'],
+          ['\\(', '\\)']
+        ],
+        ignoreClass: "math-editor", // put this here
+      }
+    });
+  </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML"></script>
+
+    <script>
+        parameters_database = [{
+            id: 'A',
+            reaction_equation: '2 N_2O_5 -> 4 NO_2 + O_2',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'N_2O_5',
+                id: 'r_n2o5',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 2,
+            },
+            ],
+            products: [{
+                formula: 'N_2O_4',
+                id: 'r_n2o4',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 4,
+            },
+            {
+                formula: 'O_2',
+                id: 'r_o2',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ]
+        },
+        {
+            id: 'E',
+            reaction_equation: '2 H_2O_2 ->[\\rm I^-] 2 H_2O + O2',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'H_2O_2',
+                id: 'r_h2o2',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 2,
+            },
+            {
+                formula: 'I^-',
+                id: 'r_i',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 0,
+            },
+            ],
+            products: [{
+                formula: 'H_2O',
+                id: 'r_h2o',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 2,
+            },
+            {
+                formula: 'O_2',
+                id: 'r_o2',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ]
+        },
+        {
+            id: 'F',
+            reaction_equation: '2 NO_2 + F_2 -> 2 NO_2F',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'NO_2',
+                id: 'r_no2',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 2,
+            },
+            {
+                formula: 'F_2',
+                id: 'r_f2',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 1,
+            },
+            ],
+            products: [{
+                formula: 'NO_2F',
+                id: 'r_no2f',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 2,
+            },
+            ]
+        },
+        {
+            id: 'G',
+            reaction_equation: '2 H_2 + 2 NO -> N_2 + H_2O',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'H_2',
+                id: 'r_h2',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 2,
+            },
+            {
+                formula: 'NO',
+                id: 'r_no',
+                concentration: 1.0,
+                order: 2,
+                stoichiometric_coefficient: 2,
+            },
+            ],
+            products: [{
+                formula: 'N_2',
+                id: 'r_n2',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            {
+                formula: 'H_2O',
+                id: 'r_h2o',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ]
+        },
+        {
+            id: 'H',
+            reaction_equation: 'NO + Br_2 -> NOBr2',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'NO',
+                id: 'r_no',
+                concentration: 1.0,
+                order: 2,
+                stoichiometric_coefficient: 1,
+            },
+            {
+                formula: 'Br_2',
+                id: 'r_br2',
+                concentration: 1.0,
+                order: 1,
+                stoichiometric_coefficient: 1,
+            },
+            ],
+            products: [{
+                formula: 'NOBr_2',
+                id: 'r_nobr2',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ]
+        },
+        {
+            id: 'I',
+            reaction_equation: 'NO_2 + CO -> NO + CO_2',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'NO_2',
+                id: 'r_no2',
+                concentration: 1.0,
+                order: 2,
+                stoichiometric_coefficient: 1,
+            },
+            {
+                formula: 'CO',
+                id: 'r_co',
+                concentration: 1.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ],
+            products: [{
+                formula: 'NO',
+                id: 'r_no',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            {
+                formula: 'CO_2',
+                id: 'r_co2',
+                concentration: 0.0,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ]
+        },
+        ];
+
+
+        // elementary only currently
+        // TODO: Load parameters based off passed identifier from parameter database
+        // TODO: Remove label data
+        // TODO: Include formatted reaction
+        var parameters = {
+            id: 1,
+            // title: 'Experiment name',
+            reaction_equation: '2 H_2O_2 ->[\\rm I^-] 2 H_2O + O2',
+            rate_constant: 1,
+            reactants: [{
+                formula: 'NO',
+                id: 'reactant_a',
+                concentration: 1.0,
+                order: 0,
+                stoichiometric_coefficient: 2,
+            },
+            {
+                formula: 'O2',
+                id: 'reactant_b',
+                concentration: 0.6,
+                order: 0,
+                stoichiometric_coefficient: 1,
+            },
+            ],
+            products: [{
+                formula: 'NO2',
+                id: 'reactant_c',
+                concentration: 0.0,
+                order: 1,
+                stoichiometric_coefficient: 2,
+            },],
+            // TODO: v2: Include a noise function in a sane way
+        };
+
+        // TODO: inlcude in the same way as the species
+        var conditions = {
+            t: 0.0,
+            dt: 0.01,
+            Nmax: 100,
+        };
+
+        var data = [];
+    </script>
+</head>
+
+<body>
+    <!-- TODO: Use simple (responsive) box formatting for layout -->
+    <!-- TODO: Initialize with moodle user id! -->
+
+    <div class='container'>
+
+        <div class='row'>
+            <div id='header'>
+                <h2>Reaction Kinetics</h2>
+                <div id='reaction_equation'>
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col'>
+
+                <div id='experimental_conditions'>
+                    <!-- TODO: refactor to load from config -->
+                    <!-- <input id='dt' value='0.01'> s<br> -->
+                    <!-- N<sub>max</sub> = <input id='tmax' value='5000'><br> -->
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">&Delta;t = </span>
+                        </div>
+                        <input type="text" class="form-control" id='dt' value='0.01'>
+                        <div class="input-group-append">
+                            <span class="input-group-text">s</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">N<sub>max</sub> = </span>
+                        </div>
+                        <input type="text" class="form-control" input id='Nmax' value='100'>
+                        <!-- <div class="input-group-append"> -->
+                        <!-- <span class="input-group-text">.00</span> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+
+            </div>
+            <div class='col'>
+                <div id='experimental_buttons'>
+                    <!-- <button onclick="loadURLParameters()" class="btn btn-outline-primary">
+            loadURLParameters()
+          </button> -->
+                    <!-- TODO: Load from URL parameters -->
+                    <!-- TDOD: Load from cookie -->
+                    <!-- <button onclick="loadExperiment()" class="btn btn-outline-primary">
+            loadExperiment()
+          </button>
+          <button onclick="loadParameters()" class="btn btn-outline-primary">
+            loadParameters()
+          </button>
+          <button onclick="createEmptyPlot()" class="btn btn-outline-primary">
+            createEmptyPlot()
+          </button>
+          <button onclick="calculateData()" class="btn btn-outline-primary">
+            calculateData()
+          </button>
+          <button onclick="startExperiment()" class="btn btn-outline-primary">
+            startExperiment()
+          </button>
+          <button onclick="" id="stop_experiment_button" class="btn btn-outline-danger">
+            stopExperiment()
+          </button>
+          <button onclick="plotExperiment()" class="btn btn-outline-primary">
+            plotExperiment()
+          </button>
+          <button onclick="getCSVFile()" class="btn btn-outline-success">
+            getCSVFile()
+          </button> -->
+
+                    <!-- <br>
+          <br>
+          <br> -->
+
+                    <!-- <button onclick="doOnload()" id="do_onload" class="btn btn-light">
+            doOnload()
+          </button> -->
+                    <button onclick="doSetup()" id="do_setup" class="btn btn-primary">
+                        Setup
+                    </button>
+                    <button onclick="doRun()" id="do_run" class="btn btn-success">
+                        Run
+                    </button>
+                    <button onclick="doDownload()" id="do_download" class="btn btn-info" disabled>
+                        Download CSV
+                    </button>
+                    <button onclick="doReset()" id="do_reset" class="btn btn-danger" disabled>
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div id="graph"></div>
+        </div>
+
+    </div>
+
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        // TODO: Rearrange functions into:
+        // TODO: * user controllable step functions
+        // TODO: * called partial step functions (cuurently button callable)
+        // TODO: * organised utility functions
+        // TODO: * organised utility data functions
+
+
+        // user functions
+        function doOnload() {
+            // not actually a button function
+            loadURLParameters();
+            loadExperiment();
+
+            disableButtons(['do_run', 'do_download']);
+            enableButtons(['do_setup']);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+
+        function doSetup() {
+            loadParameters();
+            createEmptyPlot();
+            calculateData();
+
+            disableButtons(['do_setup', 'do_download']);
+            enableButtons(['do_run']);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+
+        function doRun() {
+            startExperiment();
+
+            disableButtons([, 'do_setup', 'do_run']);
+            enableButtons(['do_download', 'do_reset']);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+
+        }
+
+        function doDownload() {
+            getCSVFile('data');
+        }
+
+        function doReset() {
+            location.reload();
+        }
+
+
+        // <div class="input-group mb-3">
+        //   <div class="input-group-prepend">
+        //     <span class="input-group-text">$</span>
+        //   </div>
+        //   <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+        //   <div class="input-group-append">
+        //     <span class="input-group-text">.00</span>
+        //   </div>
+        // </div>
+
+        function loadURLParameters() {
+            params = (new URL(document.location)).searchParams;
+            keys = [
+                'courseid',
+                'courseshortname',
+                'coursefullname',
+                'userid',
+                'username',
+                'userfullname',
+            ]
+            for (k in keys) {
+                console.log(keys[k] + '=' + params.get(keys[k]));
+            }
+            seed = params.get('userid');
+            parameters = parameters_database[seed % parameters_database.length]
+        }
+
+        function loadExperiment() {
+            document.getElementById('reaction_equation').innerHTML = chem(parameters.reaction_equation);
+
+            for (r in parameters.reactants) {
+
+                grp = document.createElement('div');
+                grp.classList.add('input-group');
+                grp.classList.add('mb-3');
+
+                gd0 = document.createElement('div');
+                gd0.classList.add('input-group-prepend');
+
+                gt0 = document.createElement('span');
+                gt0.classList.add('input-group-text');
+                gt0.textContent = chem('[' + parameters.reactants[r].formula + '] = ');
+
+                inp = document.createElement('input')
+                inp.setAttribute('type', 'text');
+                inp.value = parameters.reactants[r].concentration;
+                inp.id = parameters.reactants[r].id;
+                inp.classList.add('form-control')
+
+                gd1 = document.createElement('div');
+                gd1.classList.add('input-group-append');
+
+                gt1 = document.createElement('span');
+                gt1.classList.add('input-group-text');
+                gt1.textContent = " M";
+
+                // lb0 = document.createTextNode(parameters.reactants[r].label0)
+                // lb1 = document.createTextNode(parameters.reactants[r].label1)
+                // lbr = document.createElement('br')
+
+                exp = document.getElementById('experimental_conditions');
+                exp.appendChild(grp);
+                grp.appendChild(gd0);
+                gd0.appendChild(gt0);
+                grp.appendChild(inp);
+                grp.appendChild(gd1);
+                gd1.appendChild(gt1);
+            }
+        }
+
+
+        function createEmptyPlot() {
+            plotly_data = []
+            for (r in parameters.reactants) {
+                pobj = {
+                    x: [conditions.t],
+                    y: [parameters.reactants[r].concentration],
+                    type: 'scatter',
+                    name: chem(parameters.reactants[r].formula),
+                }
+                plotly_data.push(pobj);
+            }
+
+            for (p in parameters.products) {
+                pobj = {
+                    x: [conditions.t],
+                    y: [parameters.products[p].concentration],
+                    type: 'scatter',
+                    name: chem(parameters.products[p].formula),
+                }
+                plotly_data.push(pobj);
+            }
+
+            // TODO: v2: Inlcude a reaction rate plot (either concurrent or overlaid in same plot)
+            // DEBUG: Reaction rate
+            // plotly_data.push({
+            //   x: [],
+            //   y: [],
+            //   type: 'scatter',
+            //   name: 's',
+            // });
+            // to here
+
+            var plotly_layout = {
+                xaxis: {
+                    title: 'tijd (s)',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'lightgrey'
+                    },
+                    range: [conditions.t, conditions.t + conditions.dt * conditions.Nmax],
+                },
+                yaxis: {
+                    title: 'concentratie (M)',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'lightgrey'
+                    },
+                }
+            };
+
+            Plotly.plot('graph', plotly_data, plotly_layout, {
+                responsive: true,
+            });
+        }
+
+        function loadParameters() {
+            for (r in parameters.reactants) {
+                parameters.reactants[r].concentration = parseFloat(document.getElementById(parameters.reactants[r].id).value)
+            }
+            // TODO: v2: When this is all 'species'
+            // for (p in parameters.products) {
+            //   parameters.products[p].concentration = parseFloat(document.getElementById(parameters.products[p].id).value)
+            // }
+            // TODO: unhardcode
+            conditions.dt = parseFloat(document.getElementById('dt').value);
+            conditions.Nmax = parseFloat(document.getElementById('Nmax').value);
+        }
+
+
+        function calculateRate(rc) {
+            // TODO: v2: Move from reactants & products to species (visible & invisible)
+            // TODO: v2: and transition function parameters based off species ids
+            s = parameters.rate_constant;
+            for (r in parameters.reactants) {
+                if (rc[r] > 0) {
+                    s = s * Math.pow(rc[r], parameters.reactants[r].order);
+                } else {
+                    s = 0;
+                }
+            }
+            return s;
+        }
+
+
+        function calculateData() {
+            t = conditions.t;
+            c = [];
+            for (r in parameters.reactants) {
+                // for now, later load from textbox
+                c.push(parameters.reactants[r].concentration);
+            }
+            for (p in parameters.products) {
+                // for now, later load from textbox
+                c.push(parameters.products[p].concentration);
+            }
+
+            s = calculateRate(c);
+            // DEBUG: Reaction rate
+            // data_line = [t].concat(c, [0]);
+            data_line = [t].concat(c);
+            data.push(data_line);
+            for (i = 1; i < conditions.Nmax; i++) {
+                t = t + conditions.dt;
+                c_next = [];
+                for (r in parameters.reactants) {
+                    c_next[r] = c[r] - s * conditions.dt * parameters.reactants[r].stoichiometric_coefficient;
+                    if (c_next[r] < 0) {
+                        c_next[r] = 0;
+                    }
+                }
+                for (p = 0; p < parameters.products.length; p++) {
+                    c_next[p + parameters.reactants.length] = c[p + parameters.reactants.length] +
+                        s * conditions.dt * parameters.products[p].stoichiometric_coefficient;
+                    if (c_next[p + parameters.reactants.length] < 0) {
+                        c_next[p + parameters.reactants.length] = 0;
+                    }
+                }
+                c = c_next;
+                s = calculateRate(c);
+                data_line = [t].concat(c);
+                // DEBUG: Reaction rate
+                // data_line = [t].concat(c, s);
+                data.push(data_line);
+            }
+        }
+
+
+        function plotExperiment() {
+            data_x = []
+            data_y = []
+            for (j = 1; j < data[0].length; j++) {
+                temp_x = []
+                temp_y = []
+                for (i = 0; i < data.length; i++) {
+                    temp_x.push(data[i][0]);
+                    temp_y.push(data[i][j]);
+                }
+                data_x.push(temp_x);
+                data_y.push(temp_y);
+            }
+            Plotly.extendTraces('graph', {
+                x: data_x,
+                y: data_y,
+            }, range(data_x.length));
+        }
+
+
+        function startExperiment() {
+            dataslice = getData();
+            setIntervalX(function () {
+                temp_data = dataslice.next()
+                Plotly.extendTraces('graph', {
+                    x: temp_data.value[0],
+                    y: temp_data.value[1],
+                }, range(temp_data.value[0].length));
+            }, 100, conditions.Nmax);
+        }
+
+
+        function* getData(start = 0, end = data.length, step = 1) {
+            let iterationCount = 0;
+            for (let i = start; i < end; i += step) {
+                iterationCount++;
+                data_x = []
+                data_y = []
+                for (j = 1; j < data[i].length; j++) {
+                    data_x.push([data[i][0]]);
+                    data_y.push([data[i][j]]);
+                }
+                yield [data_x, data_y];
+            }
+            return iterationCount;
+        }
+
+
+        // helper functions
+        function enableButtons(elements) {
+            for (e in elements) {
+                if (document.getElementById(elements[e])) {
+                    document.getElementById(elements[e]).disabled = false;
+                }
+            }
+        }
+
+
+        function disableButtons(elements) {
+            for (e in elements) {
+                if (document.getElementById(elements[e])) {
+                    document.getElementById(elements[e]).disabled = true;
+                }
+            }
+        }
+
+
+        let range = n => [...Array(n).keys()]
+
+        function chem(a) {
+            return '$$\\ce{' + a + '}$$';
+        }
+
+
+        function setIntervalX(callback, delay, repetitions) {
+            var x = 0;
+            var intervalID = window.setInterval(function () {
+                callback();
+                if (++x === repetitions) {
+                    window.clearInterval(intervalID);
+                }
+            }, delay);
+            // document.getElementById('stop_experiment_button').addEventListener('click', function() {
+            //   window.clearInterval(intervalID);
+            // });
+        }
+
+
+        function getCSVFile(filename) {
+            // TODO: Include header
+            let csvContent = "data:text/csv;charset=utf-8,";
+
+            data.forEach(function (rowArray) {
+                let row = rowArray.join(",");
+                csvContent += row + "\r\n";
+            });
+
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            // TODO: set filename based off data
+            link.setAttribute("download", filename + ".csv");
+            document.body.appendChild(link); // Required for FF
+
+            link.click();
+        }
+
+        // Onload
+        window.addEventListener('load', (event) => {
+            doOnload();
+        });
+    </script>
+
+</body>
+
+</html>
